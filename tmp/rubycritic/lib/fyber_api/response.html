@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RubyCritic</title>
+    <link href="../../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../../assets/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <header class="project-header group">
+      <h1 class="logo"><a href="../../overview.html" class="logo-link">RubyCritic</a></h1>
+      <nav class="project-nav">
+        <a href="../../overview.html" class="project-nav-item">Overview</a>
+        <a href="../../code_index.html" class="project-nav-item">Code</a>
+        <a href="../../smells_index.html" class="project-nav-item">Smells</a>
+      </nav>
+    </header>
+    <div class="file-header group">
+  <span class="rating-a circled-text circle ">A</span>
+  <h2 class="file-name">FyberApi::Response</h2>
+
+  <span class="file-committed-at">
+    
+      Never committed
+    
+  </span>
+
+  <div class="file-stats group">
+    <div class="file-stat">
+      38 complexity
+    </div>
+    <div class="file-stat">
+      4.8 complexity per method
+    </div>
+    <div class="file-stat">
+      0 churn
+    </div>
+    <div class="file-stat">
+      8 methods
+    </div>
+    <div class="file-stat">
+      0 duplication
+    </div>
+  </div>
+
+  
+</div>
+
+<code class="prettyprint linenums lang-ruby file-code js-file-code">module FyberApi
+  class Response
+
+    def initialize(response)
+      @response = response
+      check_error_response
+      check_valid_signature
+    end
+
+    def body
+      parsed_response_body
+    end
+  
+    def check_error_response
+      case @response.code
+      when 400..499
+        raise RequestError.new(@response.headers[&#39;status&#39;])
+      when 500..599
+        raise ServerError.new(@response.headers[&#39;status&#39;])
+      end   
+    end
+
+    def check_valid_signature
+      raise InvalidSignature.new(&#39;signature for this request is invalid&#39;) unless valid?
+    end
+
+    private
+
+    def valid?
+      reponse_signature = Digest::SHA1.hexdigest(@response.body + Client::API_KEY)
+      @response.headers[&quot;x-sponsorpay-response-signature&quot;] == reponse_signature
+    end
+
+    def json_body
+      @json_body ||= JSON(@response.body) 
+    end
+
+    def parsed_response_body
+      json_body[&#39;code&#39;] == &quot;NO_CONTENT&quot; ? response_fixture : json_body
+    end
+
+    # needed this because didn&#39;t find content
+    def response_fixture
+      JSON File.read(&#39;test/fixtures/response.json&#39;)
+    end
+
+  end  
+end
+</code>
+
+    <script src='../../assets/javascripts/jquery-2.1.0.js'></script>
+    <script src='../../assets/javascripts/jquery.tablesorter-2.0.js'></script>
+    <script src='../../assets/javascripts/jquery.floatThead-v1.2.7.js'></script>
+    <script src='../../assets/javascripts/jquery.timeago-v1.4.1.js'></script>
+    <script src='../../assets/javascripts/highcharts.src-4.0.1.js'></script>
+    <script src='../../assets/javascripts/jquery.scrollTo-1.4.11.js'></script>
+    <script src='../../assets/javascripts/prettify-4-Mar-2013.js'></script>
+    <script src='../../assets/javascripts/application.js'></script>
+  </body>
+</html>

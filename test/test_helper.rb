@@ -1,0 +1,1 @@
+require 'fyber_app'

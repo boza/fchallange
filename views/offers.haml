@@ -1,0 +1,35 @@
+%nav.top-bar{"data-topbar" => ""}
+  %ul.title-area
+    %li.name
+      %h1
+        %a{href: "/"}
+          Hello Fyber!
+    %li.toggle-topbar.menu-icon
+      %a{href: "#"}
+        %span menu
+  %section.top-bar-section
+    %ul.right
+      %li.divider
+      %li
+        %a{href: "/"} Home
+.row
+  .large-9.columns
+    .section-container.tabs
+      .content
+        %section.section
+          %h5.title
+            %a Offers
+          .content
+            - if offers.empty?
+              %h4 No offers available
+            - else
+              - offers.each do |offer|
+                %ul.large-block-grid-5
+                  %li.offer{style: 'border: 1px solid lightgray;'}
+                    .title 
+                      = offer.title
+                    .thubnail
+                      %img{src: offer.thumbnail_low }>/
+                    .payout
+                      Payout:
+                      = offer.payout
