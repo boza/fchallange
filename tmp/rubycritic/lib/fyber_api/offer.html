@@ -23,19 +23,19 @@
 
   <span class="file-committed-at">
     
-      Never committed
+      Updated <time class='js-timeago' datetime='2014-12-29 07:24:44 -0600'>2014-12-29 07:24:44 -0600</time>
     
   </span>
 
   <div class="file-stats group">
     <div class="file-stat">
-      16 complexity
+      17 complexity
     </div>
     <div class="file-stat">
-      2.0 complexity per method
+      2.1 complexity per method
     </div>
     <div class="file-stat">
-      0 churn
+      1 churn
     </div>
     <div class="file-stat">
       8 methods
@@ -51,13 +51,15 @@
 <code class="prettyprint linenums lang-ruby file-code js-file-code">module FyberApi
   class Offer
 
+    attr_accessor :offer_information
+
     def self.list(params)
       response = Request.new(&#39;/feed/v1/offers.json&#39;, params).get
       response_offers = response.body[&#39;offers&#39;] || []
       response_offers.map { |offer| new(offer) }
     end
 
-    def initialize(offer_information)
+    def initialize(offer_information={})
       @offer_information = offer_information
     end
 
@@ -76,8 +78,6 @@
     def thumbnail_high
       find_thumbnail(&#39;hires&#39;)
     end
-
-    private
 
     def find_thumbnail(thumbnail_key)
       (find_value_for(&#39;thumbnail&#39;) || {} ).fetch(thumbnail_key, nil)

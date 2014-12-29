@@ -19,7 +19,7 @@
     </header>
     <div class="file-header group">
   <span class="rating-a circled-text circle ">A</span>
-  <h2 class="file-name">FyberApi::Client</h2>
+  <h2 class="file-name">Exceptions</h2>
 
   <span class="file-committed-at">
     
@@ -29,16 +29,16 @@
 
   <div class="file-stats group">
     <div class="file-stat">
-      21 complexity
+      0 complexity
     </div>
     <div class="file-stat">
-      4.2 complexity per method
+      N/A complexity per method
     </div>
     <div class="file-stat">
       1 churn
     </div>
     <div class="file-stat">
-      5 methods
+      0 methods
     </div>
     <div class="file-stat">
       0 duplication
@@ -49,47 +49,14 @@
 </div>
 
 <code class="prettyprint linenums lang-ruby file-code js-file-code">module FyberApi
-  class Client
 
-    attr_accessor :params
-
-    API_KEY = &#39;b07a12df7d52e6c118e5d47d3f9e60135b109a1f&#39;
-
-    REQUIRED_PARAMS = %w(appid uid device_id pub0 page)
-
-    DEFAULT_PARAMS = { 
-                        timestamp: Time.now.to_i, 
-                        format: &#39;json&#39;, 
-                        locale: &#39;de&#39;,
-                        ip: &#39;109.235.143.113&#39;,
-                        offer_types: &#39;112&#39;
-                      }
-
-    def self.init(params={})
-      new(params).tap do |client|
-        raise FyberApi::MissingParams.new(&quot; #{REQUIRED_PARAMS.join(&#39;,&#39;)} are required&quot;) if client.missing_params?
-      end
-    end
-
-    def initialize(params={})
-      @params = DEFAULT_PARAMS.merge(params)
-    end
-
-    def offers
-      Offer.list(@params)
-    end
-
-    def missing_params?
-      missing_params.any?
-    end
-
-    def missing_params
-      REQUIRED_PARAMS.reject do |param|
-        ( params.keys - DEFAULT_PARAMS.keys ).include?(param)
-      end
-    end
+  class FyberError &lt; StandardError; end
+  class InvalidSignature &lt; FyberError; end
+  class MissingParams &lt; FyberError; end
+  class UnknownError &lt; FyberError; end
+  class ServerError &lt; FyberError; end
+  class RequestError &lt; FyberError;end
   
-  end  
 end
 </code>
 

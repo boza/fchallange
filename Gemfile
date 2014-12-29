@@ -6,7 +6,6 @@ gem 'thin'
 gem 'haml'
 gem 'httparty'
 
-
 group :development, :test  do
   gem 'factory_girl'
   gem "rack-test", require: "rack/test"

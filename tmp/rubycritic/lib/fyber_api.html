@@ -23,7 +23,7 @@
 
   <span class="file-committed-at">
     
-      Never committed
+      Updated <time class='js-timeago' datetime='2014-12-29 07:24:44 -0600'>2014-12-29 07:24:44 -0600</time>
     
   </span>
 
@@ -35,7 +35,7 @@
       N/A complexity per method
     </div>
     <div class="file-stat">
-      0 churn
+      1 churn
     </div>
     <div class="file-stat">
       0 methods
@@ -51,21 +51,11 @@
 <code class="prettyprint linenums lang-ruby file-code js-file-code">require &#39;digest&#39;
 require &#39;httparty&#39;
 
-require &#39;client&#39;
-require &#39;request&#39;
-require &#39;response&#39;
-require &#39;offer&#39;
-
-module FyberApi
-
-  class FyberError &lt; StandardError; end
-  class InvalidSignature &lt; FyberError; end
-  class MissingParams &lt; FyberError; end
-  class UnknownError &lt; FyberError; end
-  class ServerError &lt; FyberError; end
-  class RequestError &lt; FyberError;end
-
-end
+require_relative &#39;fyber_api/exceptions&#39;
+require_relative &#39;fyber_api/client&#39;
+require_relative &#39;fyber_api/request&#39;
+require_relative &#39;fyber_api/response&#39;
+require_relative &#39;fyber_api/offer&#39;
 </code>
 
     <script src='../assets/javascripts/jquery-2.1.0.js'></script>

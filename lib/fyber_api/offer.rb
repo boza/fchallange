@@ -1,13 +1,15 @@
 module FyberApi
   class Offer
 
+    attr_accessor :offer_information
+
     def self.list(params)
       response = Request.new('/feed/v1/offers.json', params).get
       response_offers = response.body['offers'] || []
       response_offers.map { |offer| new(offer) }
     end
 
-    def initialize(offer_information)
+    def initialize(offer_information={})
       @offer_information = offer_information
     end
 
@@ -26,8 +28,6 @@ module FyberApi
     def thumbnail_high
       find_thumbnail('hires')
     end
-
-    private
 
     def find_thumbnail(thumbnail_key)
       (find_value_for('thumbnail') || {} ).fetch(thumbnail_key, nil)

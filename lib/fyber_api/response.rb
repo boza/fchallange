@@ -1,6 +1,8 @@
 module FyberApi
   class Response
 
+    attr_accessor :response
+
     def initialize(response)
       @response = response
       check_error_response
@@ -12,16 +14,16 @@ module FyberApi
     end
   
     def check_error_response
-      case @response.code
+      case response.code
       when 400..499
-        raise RequestError.new(@response.headers['status'])
+        raise FyberApi::RequestError.new(@response.headers['status'])
       when 500..599
-        raise ServerError.new(@response.headers['status'])
+        raise FyberApi::ServerError.new(@response.headers['status'])
       end   
     end
 
     def check_valid_signature
-      raise InvalidSignature.new('signature for this request is invalid') unless valid?
+      raise FyberApi::InvalidSignature.new('signature for this request is invalid') unless valid?
     end
 
     private

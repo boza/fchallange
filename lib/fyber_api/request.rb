@@ -2,6 +2,8 @@ module FyberApi
   class Request
     include HTTParty
 
+    attr_accessor :params
+
     base_uri 'api.sponsorpay.com'
 
     def initialize(route, params)
@@ -13,7 +15,7 @@ module FyberApi
 
     def sign_request
       parameters = @params.to_a.map { |pairs| pairs.join('=') }.sort.join('&')
-      query_string = '%{parameters}&%{api}' % { parameters: keys, api: Client::API_KEY }
+      query_string = '%{keys}&%{api}' % { keys: parameters, api: Client::API_KEY }
       @params[:hashkey] = Digest::SHA1.hexdigest(query_string)
     end
 

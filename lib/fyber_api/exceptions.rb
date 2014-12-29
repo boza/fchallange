@@ -1,4 +1,4 @@
-module Fyber
+module FyberApi
 
   class FyberError < StandardError; end
   class InvalidSignature < FyberError; end

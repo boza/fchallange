@@ -1,6 +1,6 @@
 require 'bundler'
 Bundler.setup
-Bundler.require(:default)
+Bundler.require(:default, ENV['RACK_ENV'])
 
 require_relative 'lib/fyber_api'
 
@@ -19,7 +19,7 @@ class FyberApp < Sinatra::Base
 
   post '/offers' do
     fyber_params = params.merge( { 'appid' => 157, 'device_id' => '2b6f0cc904d137be2e1730235f5664094b831186' } )
-    offers = FyberApi::Client.new(fyber_params).offers
+    offers = FyberApi::Client.init(fyber_params).offers
     haml :offers, locals: { offers: offers }
   end
 

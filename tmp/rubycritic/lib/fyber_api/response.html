@@ -23,19 +23,19 @@
 
   <span class="file-committed-at">
     
-      Never committed
+      Updated <time class='js-timeago' datetime='2014-12-29 07:24:44 -0600'>2014-12-29 07:24:44 -0600</time>
     
   </span>
 
   <div class="file-stats group">
     <div class="file-stat">
-      38 complexity
+      39 complexity
     </div>
     <div class="file-stat">
-      4.8 complexity per method
+      4.9 complexity per method
     </div>
     <div class="file-stat">
-      0 churn
+      1 churn
     </div>
     <div class="file-stat">
       8 methods
@@ -51,6 +51,8 @@
 <code class="prettyprint linenums lang-ruby file-code js-file-code">module FyberApi
   class Response
 
+    attr_accessor :response
+
     def initialize(response)
       @response = response
       check_error_response
@@ -62,16 +64,16 @@
     end
   
     def check_error_response
-      case @response.code
+      case response.code
       when 400..499
-        raise RequestError.new(@response.headers[&#39;status&#39;])
+        raise FyberApi::RequestError.new(@response.headers[&#39;status&#39;])
       when 500..599
-        raise ServerError.new(@response.headers[&#39;status&#39;])
+        raise FyberApi::ServerError.new(@response.headers[&#39;status&#39;])
       end   
     end
 
     def check_valid_signature
-      raise InvalidSignature.new(&#39;signature for this request is invalid&#39;) unless valid?
+      raise FyberApi::InvalidSignature.new(&#39;signature for this request is invalid&#39;) unless valid?
     end
 
     private

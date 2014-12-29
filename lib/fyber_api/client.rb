@@ -1,6 +1,8 @@
 module FyberApi
   class Client
 
+    attr_accessor :params
+
     API_KEY = 'b07a12df7d52e6c118e5d47d3f9e60135b109a1f'
 
     REQUIRED_PARAMS = %w(appid uid device_id pub0 page)
@@ -13,9 +15,14 @@ module FyberApi
                         offer_types: '112'
                       }
 
+    def self.init(params={})
+      new(params).tap do |client|
+        raise FyberApi::MissingParams.new(" #{REQUIRED_PARAMS.join(',')} are required") if client.missing_params?
+      end
+    end
+
     def initialize(params={})
       @params = DEFAULT_PARAMS.merge(params)
-      raise MissingParams.new(" #{REQUIRED_PARAMS.join(',')} are required") if missing_params?
     end
 
     def offers
@@ -23,7 +30,13 @@ module FyberApi
     end
 
     def missing_params?
-      ( ( @params.keys - DEFAULT_PARAMS.keys ) - REQUIRED_PARAMS ).any?
+      missing_params.any?
+    end
+
+    def missing_params
+      REQUIRED_PARAMS.reject do |param|
+        ( params.keys - DEFAULT_PARAMS.keys ).include?(param)
+      end
     end
   
   end  
