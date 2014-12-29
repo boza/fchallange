@@ -1,6 +1,8 @@
 fchallange
 ==========
 
-bundle install 
-thin start 
-localhost:3000
+Setup
+---------- 
+* `bundle --binstubs`
+* run the server `thin start` 
+* run tests `rake test`
